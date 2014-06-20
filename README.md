@@ -37,7 +37,10 @@ To install `arduino-stream-team`, cd into the `arduino-stream-team` directory an
 
 See the COPYING file for the full license text.
 
-TODO: Add data channel selectors. 
+TODO: Add data channel selectors.
+
 TODO: Add graphics/plotting capibility.
+
 TODO: Add requirements.txt.
+
 TODO: Add database recording capibilities.
