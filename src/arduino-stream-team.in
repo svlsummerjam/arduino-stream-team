@@ -1,0 +1,83 @@
+#!/usr/bin/env python
+#Copyright (c) 2014 James Beedy
+from argparse import ArgumentParser
+from BreakfastSerial import Arduino, Sensor, Led
+from time import sleep
+from streamteam.streamteam import Streamteam
+import gevent
+
+
+def arg_parser():
+    parser = ArgumentParser(
+        description='pubnub arduino publisher',
+        prog='arduino-stream-team'
+    )
+    parser.add_argument(
+        'channel',
+        metavar='channel',
+        help='channel',
+    )
+    parser.add_argument(
+        'publish',
+        metavar='publish',
+        help='publish'
+    )
+    parser.add_argument(
+        'subscribe',
+        metavar='subscribe',
+        help='subscribe'
+    )
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        '-p',
+        '--pub',
+        nargs='?',
+        help="Value must be yes"
+    )
+    group.add_argument(
+        '-s',
+        '--sub',
+        nargs='?',
+        help="Value must be yes",
+    )
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='version',
+        version='%(prog)s v0.1a'
+    )
+    return parser
+
+def sensor_val(sensor):
+    return sensor.value
+
+if __name__ == "__main__":
+
+    # Create ArgumentParser to get input that initializes Streamteam
+    parser = arg_parser()
+    args = parser.parse_args()
+
+    #initialize Pubnub
+    pub_stream = Streamteam(args)
+
+
+    if args.sub:
+        try:
+            while True:
+                pub_stream.subscribe()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            pass
+
+    if args.pub:
+        # Initialize arduino
+        board = Arduino()
+        sensor = Sensor(board, "A5")
+        try:
+            while True:
+                pub_stream.publish(sensor_val(sensor))
+        except KeyboardInterrupt:
+            pass
+
+
