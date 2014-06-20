@@ -7,7 +7,7 @@
 
 ### Installation
 
-To install `emotiv-stream-team`, cd into the `emotiv-stream-team` directory and run: 
+To install `arduino-stream-team`, cd into the `arduino-stream-team` directory and run:
 
 	$ ./configure
 	$ sudo make
